@@ -1,3 +1,48 @@
+## 1.2.0 (January 12th, 2026)
+
+Fix:
+* Helm: properly set the PodSecurityContext: ([#1183](https://github.com/hashicorp/vault-secrets-operator/pull/1183))
+* VDS: only trigger rollout restarts on static cred changes.: ([#1191](https://github.com/hashicorp/vault-secrets-operator/pull/1191))
+* VDS: invalid secret HMAC validation on static creds: ([#1194](https://github.com/hashicorp/vault-secrets-operator/pull/1194))
+* HMAC: only support non-nil data: ([#1200](https://github.com/hashicorp/vault-secrets-operator/pull/1200))
+
+Enhancements:
+* Helm: bump CSI driver version to 1.0.1: ([#1184](https://github.com/hashicorp/vault-secrets-operator/pull/1184))
+
+Build:
+* Suppress CVE-2025-6020 on the container only: ([#1190](https://github.com/hashicorp/vault-secrets-operator/pull/1190))
+* CI: test against k8s 1.35 + update changelog: ([#1197](https://github.com/hashicorp/vault-secrets-operator/pull/1197))
+
+Dependency Updates:
+* Bump the gomod-backward-compatible group across 1 directory with 5 updates: ([#1188](https://github.com/hashicorp/vault-secrets-operator/pull/1188))
+* Bump google.golang.org/api from 0.258.0 to 0.259.0 in the gomod-backward-compatible group: ([#1192](https://github.com/hashicorp/vault-secrets-operator/pull/1192))
+* Bump github.com/onsi/gomega from 1.38.3 to 1.39.0 in the gomod-backward-compatible group: ([#1196](https://github.com/hashicorp/vault-secrets-operator/pull/1196))
+
+## 1.1.0 (December 12th, 2025)
+
+Enhancements:
+* Add support for linux/s390x and linux/arm64 (Red Hat): ([#1152](https://github.com/hashicorp/vault-secrets-operator/pull/1152))
+
+Fix:
+* Topology spread constraints bugfix: ([#1148](https://github.com/hashicorp/vault-secrets-operator/pull/1148))
+* Update docs branch version: ([#1140](https://github.com/hashicorp/vault-secrets-operator/pull/1140))
+
+Build:
+* ci: updating vault-helm to v0.31.0 and latest Vault versions: ([#1125](https://github.com/hashicorp/vault-secrets-operator/pull/1125))
+
+Dependency Updates:
+* Bump the gomod-backward-compatible group across 1 directory with 4 updates: ([#1172](https://github.com/hashicorp/vault-secrets-operator/pull/1172))
+* Bump the gomod-backward-compatible group with 4 updates: ([#1178](https://github.com/hashicorp/vault-secrets-operator/pull/1178))
+* Bump github.com/gruntwork-io/terratest from 0.53.0 to 0.54.0 in the gomod-backward-compatible group: ([#1162](https://github.com/hashicorp/vault-secrets-operator/pull/1162))
+* Bump the gomod-backward-compatible group across 1 directory with 6 updates: ([#1147](https://github.com/hashicorp/vault-secrets-operator/pull/1147))
+* Bump golang.org/x/crypto from 0.43.0 to 0.45.0: ([#1154](https://github.com/hashicorp/vault-secrets-operator/pull/1154))
+* Bump the gomod-backward-compatible group with 7 updates: ([#1157](https://github.com/hashicorp/vault-secrets-operator/pull/1157))
+* Bump google.golang.org/api from 0.250.0 to 0.251.0 in the gomod-backward-compatible group: ([#1133](https://github.com/hashicorp/vault-secrets-operator/pull/1133))
+* Bump the gomod-backward-compatible group with 5 updates: ([#1128](https://github.com/hashicorp/vault-secrets-operator/pull/1128))
+* Bump Go version to 1.25.4: ([#1151](https://github.com/hashicorp/vault-secrets-operator/pull/1151))
+* Bump ubi10/ubi-micro from 10.0 to 10.1: ([#1150](https://github.com/hashicorp/vault-secrets-operator/pull/1150))
+* Bump ubi10/ubi-minimal from 10.0 to 10.1: ([#1149](https://github.com/hashicorp/vault-secrets-operator/pull/1149))
+
 ## 1.0.1 (September 26th, 2025)
 
 Fix:

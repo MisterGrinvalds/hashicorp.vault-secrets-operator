@@ -164,7 +164,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ["arm64", "amd64", "s390x"]
+        arch: ["arm64", "amd64"]
     env:
       repo: ${{github.event.repository.name}}
       version: ${{needs.get-product-version.outputs.product-version}}
@@ -219,6 +219,7 @@ jobs:
         run: |
           make ci-build-scripts-dir GOARCH="${{ matrix.arch }}"
       - name: Docker Build (Action)
+        if: ${{ matrix.arch != 's390x' }}
         uses: hashicorp/actions-docker-build@v2
         env:
           VERSION: ${{ needs.get-product-version.outputs.product-version }}
@@ -231,11 +232,22 @@ jobs:
           tags: |
             docker.io/hashicorp/${{env.repo}}:${{env.image_tag}}
             public.ecr.aws/hashicorp/${{env.repo}}:${{env.image_tag}}
-
-      - name: Check binary version in container
+      - name: Docker Build (Action) s390x
+        if: ${{ matrix.arch == 's390x' }}
+        uses: hashicorp/actions-docker-build@v2
+        env:
+          VERSION: ${{ needs.get-product-version.outputs.product-version }}
+          GO_VERSION: ${{ needs.build-pre-checks.outputs.go-version }}
+        with:
+          version: ${{env.version}}
+          target: release-ubi
+          arch: ${{matrix.arch}}
+          redhat_tag: quay.io/redhat-isv-containers/64b072322e2773c28d30d988:${{env.image_tag}}
+      - name: Check binary version in container ${{ matrix.arch }}
+        if: ${{ matrix.arch != 's390x' }}
         shell: bash
         run: |
-          version_output=$(docker run hashicorp/${{env.repo}}:${{env.image_tag}} --version --output=json)
+          version_output=$(docker run --platform linux/${{matrix.arch}} hashicorp/${{env.repo}}:${{env.image_tag}} --version --output=json)
           echo $version_output
           git_version=$(echo $version_output | jq -r .gitVersion)
 
@@ -269,6 +281,8 @@ jobs:
         - "0.10.0"
         - "1.0.0"
         - "1.0.1"
+        - "1.1.0"
+        - "1.2.0"
     steps:
       - uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4.2.1
         with:
@@ -280,7 +294,7 @@ jobs:
       - name: Install kind
         uses: helm/kind-action@a1b0e391336a6ee6713a0583f8c6240d70863de3 # v1.12.0
         with:
-          version: "v0.30.0"
+          version: "v0.31.0"
           install_only: true
       - uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112 # v4.3.0
         id: setup-helm
@@ -306,11 +320,11 @@ jobs:
       - run: echo "setting versions"
     outputs:
       # JSON encoded array of k8s versions
-      K8S_VERSIONS: '["1.33.4", "1.32.8", "1.31.12", "1.30.13", "1.29.14"]'
-      VAULT_N: "1.20.4"
-      VAULT_N_1: "1.19.10"
-      VAULT_N_2: "1.18.15"
-      VAULT_LTS_1: "1.16.26"
+      K8S_VERSIONS: '["1.35.0", "1.34.3", "1.33.7", "1.32.11", "1.31.14"]'
+      VAULT_N: "1.21.2"
+      VAULT_N_1: "1.20.7"
+      VAULT_N_2: "1.19.13"
+      VAULT_LTS_1: "1.16.29"
   oom-tests:
     runs-on: ubuntu-latest
     needs:
